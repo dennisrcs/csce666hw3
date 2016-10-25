@@ -13,20 +13,12 @@ imshow(avg_face_reshaped, [0 255]);
 cent_data = data - avg_face;
 [u, P, D] = snapshot_pca(cent_data);
 
-efaces = zeros(P, D);
+eigenfaces = zeros(P, D);
 for i = 1:P
-    efaces(:,:) = efaces(:,:) + u(:,i)*data(i,:);
+    eigenfaces(:,:) = eigenfaces(:,:) + u(:,i)*data(i,:);
 end
 
 for i = 1:P
-    minx = min(efaces(i,:));
-    maxx = max(efaces(i,:));
-    
-    face = (efaces(i,:) - minx)/(maxx-minx);
-    
-    ximg = reshape(face, [width, height]);
-    %imshow(ximg);
+    ximg = reshape(eigenfaces(i,:), [width, height]);
+    imshow(normr(ximg));
 end
-
-% part c
-figure, scatter(efaces(1,:), efaces(2,:));
