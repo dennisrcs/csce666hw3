@@ -7,7 +7,7 @@ data = hw3p1_data.x;
 % part a
 avg_face = mean(data);
 avg_face_reshaped = reshape(avg_face, [width, height]);
-imshow(avg_face_reshaped, [0 255]);
+imagesc(avg_face_reshaped);
 
 % part b
 cent_data = data - avg_face;
@@ -20,20 +20,16 @@ end
 
 figure;
 for i = 1:P
-    minx = min(efaces(i,:));
-    maxx = max(efaces(i,:));
-    face = (efaces(i,:) - minx)/(maxx-minx);
-    
     if i <= 6
-        reshaped_img = reshape(face, [width, height]);
+        reshaped_img = reshape(efaces(i,:), [width, height]);
         subplot(2,3,i);
-        imshow(reshaped_img);
+        imagesc(reshaped_img);
         title(strcat('eigenface #', num2str(i)));
     end
 end
 
 % part c
-figure
+figure;
 subplot(3,5,1);
 scatter(efaces(1,:), efaces(2,:));
 title('PC1 x PC2')

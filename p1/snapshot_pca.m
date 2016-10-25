@@ -14,4 +14,3 @@ function [u, P, D] = snapshot_pca(data)
     R_cov = cov(R);
     [u, s, v] = svd(R_cov);
 end
-
