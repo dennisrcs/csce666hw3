@@ -1,0 +1,48 @@
+% loading files
+us_data = load('us_city_distance.mat');
+world_distance = load('world_city_distance.mat');
+
+% part a
+
+% getting data from us_city_distance file
+us_d = us_data.d;
+us_names = us_data.names;
+num_nodes = length(us_d);
+
+% creating graph
+k = 5;
+D_G = Inf(num_nodes);
+
+for i = 1:num_nodes
+    % getting k nearest nodes
+    [ds, ids] = sort(us_d(i,:));
+    k_d = ds(2:k+1);
+    k_id = ids(2:k+1);
+    
+    % adding edge to graph
+    for j = 1:k
+        if i < k_id(j)
+            % Twice since the matrix is symmetric
+            D_G(i,k_id(j)) = k_d(j);
+            D_G(k_id(j),i) = k_d(j);
+        end
+    end
+end
+
+% building all shortest path graph
+for i = 1:num_nodes
+    for j = i+1:num_nodes
+        for k = 1:num_nodes
+            % Distances from i to j directly and passing through k
+            d_ij = D_G(i,j);
+            d_ikj = D_G(i,k) + D_G(k,j);
+            new_d = min(d_ij, d_ikj);
+            
+            % Updating edges
+            D_G(i,j) = new_d;
+            D_G(j,i) = new_d;
+        end
+    end
+end
+
+H = eye(num_nodes) - (1/num_nodes)
