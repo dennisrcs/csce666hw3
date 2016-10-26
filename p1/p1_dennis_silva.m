@@ -7,16 +7,14 @@ data = hw3p1_data.x;
 % part a
 avg_face = mean(data);
 avg_face_reshaped = reshape(avg_face, [width, height]);
+figure;
 imagesc(avg_face_reshaped);
+colormap gray;
 
-% part b
+% doing snapshot pca
 cent_data = data - avg_face;
-[u, P, D] = snapshot_pca(cent_data);
-
-efaces = zeros(P, D);
-for i = 1:P
-    efaces(:,:) = efaces(:,:) + u(:,i)*data(i,:);
-end
+[u, P] = snapshot_pca(cent_data);
+efaces = cent_data' * u; efaces = efaces';
 
 figure;
 for i = 1:P
@@ -24,68 +22,33 @@ for i = 1:P
         reshaped_img = reshape(efaces(i,:), [width, height]);
         subplot(2,3,i);
         imagesc(reshaped_img);
+        colormap gray;
         title(strcat('eigenface #', num2str(i)));
     end
 end
 
+% projecting the data onto first 6 components
+efaces_reduced = efaces(1:6,:);
+proj_data = cent_data*efaces_reduced'; proj_data = proj_data';
+
 % part c
 figure;
-subplot(3,5,1);
-scatter(efaces(1,:), efaces(2,:));
-title('PC1 x PC2')
+subplot(2,3,1);
+scatter(proj_data(1,:), proj_data(2,:));
+xlabel('PC1');ylabel('PC2');
 
-subplot(3,5,2);
-scatter(efaces(1,:), efaces(3,:));
-title('PC1 x PC3')
+subplot(2,3,2);
+scatter(proj_data(2,:), proj_data(3,:));
+xlabel('PC2');ylabel('PC3');
 
-subplot(3,5,3);
-scatter(efaces(1,:), efaces(4,:));
-title('PC1 x PC4')
+subplot(2,3,3);
+scatter(proj_data(3,:), proj_data(4,:));
+xlabel('PC3');ylabel('PC4');
 
-subplot(3,5,4);
-scatter(efaces(1,:), efaces(5,:));
-title('PC1 x PC5');
+subplot(2,3,4);
+scatter(proj_data(4,:), proj_data(5,:));
+xlabel('PC4');ylabel('PC5');
 
-subplot(3,5,5);
-scatter(efaces(1,:), efaces(6,:));
-title('PC1 x PC6');
-
-subplot(3,5,6);
-scatter(efaces(2,:), efaces(3,:));
-title('PC2 x PC3');
-
-subplot(3,5,7);
-scatter(efaces(2,:), efaces(4,:));
-title('PC2 x PC4');
-
-subplot(3,5,8);
-scatter(efaces(2,:), efaces(5,:));
-title('PC2 x PC5');
-
-subplot(3,5,9);
-scatter(efaces(2,:), efaces(6,:));
-title('PC2 x PC6');
-
-subplot(3,5,10);
-scatter(efaces(3,:), efaces(4,:));
-title('PC3 x PC4');
-
-subplot(3,5,11);
-scatter(efaces(3,:), efaces(5,:));
-title('PC3 x PC5');
-
-subplot(3,5,12);
-scatter(efaces(3,:), efaces(6,:));
-title('PC3 x PC6');
-
-subplot(3,5,13);
-scatter(efaces(4,:), efaces(5,:));
-title('PC4 x PC5');
-
-subplot(3,5,14);
-scatter(efaces(4,:), efaces(6,:));
-title('PC4 x PC6');
-
-subplot(3,5,15);
-scatter(efaces(5,:), efaces(6,:));
-title('PC5 x PC6');
+subplot(2,3,5);
+scatter(proj_data(5,:), proj_data(6,:));
+xlabel('PC5');ylabel('PC6');
