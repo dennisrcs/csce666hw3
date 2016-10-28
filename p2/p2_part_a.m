@@ -14,19 +14,19 @@ us_S = us_d.^2;
 
 % computing tau d_g
 us_T_DG = -us_H*us_S*us_H/2;
-[eigvec, full_eigval, ignore] = svd(us_T_DG);
+[eigvec, full_eigval] = eigs(us_T_DG, 3, 'LR');
 
 % plotting eigenvalues
 eigval = diag(full_eigval);
 figure;
 subplot(1, 2, 1);
-semilogx(1:1:size(us_S, 1), eigval, 'LineWidth', 1.5);
+semilogx(1:1:size(eigval, 1), eigval, 'LineWidth', 1.5);
 xlabel('Eigenvalue index');
 ylabel('Eigenvalues');
 
 cum_eigval = cumsum(eigval);
 subplot(1, 2, 2);
-semilogx(1:1:size(us_S, 1), cum_eigval/cum_eigval(length(cum_eigval)), 'LineWidth', 1.5);
+semilogx(1:1:size(eigval, 1), cum_eigval/cum_eigval(length(cum_eigval)), 'LineWidth', 1.5);
 xlabel('Eigenvalue index');
 ylabel('Normalized Cumulative Eigenvalues');
 
