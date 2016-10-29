@@ -17,7 +17,7 @@ function indices = find_subset(data, clab)
                 corrects = 0;
                 for i = 1:size(validation,1)
                     % Predicting test data class
-                    class_predicted = knn_predict(validation(i, :), train, clab_train, 2);
+                    class_predicted = knn_predict(validation(i, :), train, clab_train, 3);
 
                     if class_predicted == clab_validation(i)
                         corrects = corrects + 1;
