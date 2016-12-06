@@ -7,7 +7,7 @@ function prediction = knn_predict(x, data, clab, k)
         distances(i) = euclidian_distance(x, data(i, :));
     end
     
-    [~, idx] = sort(distances);
+    [ignore, idx] = sort(distances);
     classes = clab(idx);
     k_classes = classes(1:k);
     

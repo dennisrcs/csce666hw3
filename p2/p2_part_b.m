@@ -13,20 +13,22 @@ world_S = world_d.^2;
 
 % computing tau d_g
 world_T_DG = -world_H*world_S*world_H/2;
-[eigvec, full_eigval, ignore] = svd(world_T_DG);
+[eigvec, full_eigval] = eigs(world_T_DG, 10, 'LR');
 
 eigval = diag(full_eigval);
 figure;
 subplot(1, 2, 1);
-semilogx(1:1:size(world_S, 1), eigval, 'LineWidth', 1.5);
+plot(1:1:size(eigval, 1), eigval, 'LineWidth', 1.5);
 xlabel('Eigenvalue index');
 ylabel('Eigenvalues');
+xlim([1 size(eigval, 1)]);
 
 cum_eigval = cumsum(eigval);
 subplot(1, 2, 2);
-semilogx(1:1:size(world_S, 1), cum_eigval/cum_eigval(length(cum_eigval)), 'LineWidth', 1.5);
+plot(1:1:size(eigval, 1), cum_eigval/cum_eigval(length(cum_eigval)), 'LineWidth', 1.5);
 xlabel('Eigenvalue index');
 ylabel('Normalized Cumulative Eigenvalues');
+xlim([1 size(eigval, 1)]);
 
 d = 3;
 y = zeros(world_num_nodes, d);

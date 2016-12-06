@@ -10,8 +10,7 @@ test_data = hw3p4_test.x2;
 clab_test = hw3p4_test.clab2;
 
 train_data = preprocess(train_data);
-%indices = [14, 29, 6, 15, 1, 3, 25, 20, 17, 18, 28];
-indices = find_subset(train_data, clab_train_data);
+indices = find_subset_sfs(train_data, clab_train_data, 10);
 train_data = train_data(:,indices);
 test_data = test_data(:,indices);
 

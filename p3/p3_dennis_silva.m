@@ -9,7 +9,7 @@ img_size = size(img, 1);
 clusters = zeros(img_size, 1);
 
 figure;
-
+image_name = 'hw3p3c';
 % k-means
 for k = 1:10
     % generating centroids
@@ -51,7 +51,8 @@ for k = 1:10
     end
     
     new_image = reshape(new_image, [width, height, 3]);
-    %subplot(5,2,k);
-    figure, imagesc(uint8(new_image));
+    imwrite(uint8(new_image), strcat(image_name,num2str(k),'.jpg'));
+    subplot(5,2,k);
+    imagesc(uint8(new_image));
     title(strcat('K=',num2str(k)));
 end

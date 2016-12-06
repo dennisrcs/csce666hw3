@@ -8,29 +8,26 @@ clab_train = hw3p4_train.clab1;
 
 % Retriving test data
 test = hw3p4_test.x2;
-clab_test = hw3p4_test.clab2;
 
 % preprocessing
 train = preprocess(train);
 test = preprocess(test);
+data = [train; test];
+data = normc(data);
+
+test_size = length(test);
+train_size = length(train);
+train = data(1:train_size,:);
+test = data(train_size+1:end,:);
 
 % Selecting the following features from the data
-%indices = [14, 29, 6, 15, 1, 3, 25, 20, 17, 18, 28];
-indices = [29, 6, 44, 43, 15, 1, 3, 17, 7, 28, 20];
+indices = [6,14,25,15,21,27,20,24,29,28];
 train = train(:,indices);
 test = test(:,indices);
 
-test_size = length(test);
 uclab = [];
-knn_corrects = 0;
 for i = 1:test_size
     % Predicting test data class
     class_predicted = knn_predict(test(i, :), train, clab_train, 1);
-
-    if class_predicted == clab_test(i)
-        knn_corrects = knn_corrects + 1;
-    end
     uclab = [uclab; class_predicted];
 end
-
-knn_corrects/test_size
